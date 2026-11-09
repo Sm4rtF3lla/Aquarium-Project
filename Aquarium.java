@@ -8,11 +8,12 @@ public class Aquarium {
    CanvasAPI canvas = Graphics.createCanvas(800, 600, "My First Drawing");
 
    PainterAPI p = canvas.getPainter();
-      drawTriangle(150, 250, Color.BLUE, 0, 100, p);
-      drawAlien(Color.GREEN, -100, 0, 80, p);
-      drawAlien(Color.RED, 100, 0, 80, p);
-      drawCow(Color.LIGHT_GRAY, Color.BLACK, 110, 110, 60, p);
-      drawCow(Color.LIGHT_GRAY, Color.BLACK, -110, -110, 70, p);
+      drawTriangle(150, 250, Color.GREEN, 0, 100, p);
+      // drawAlien(Color.GREEN, -100, 0, 80, p);
+      // drawAlien(Color.RED, 100, 0, 80, p);
+      // drawCow(Color.LIGHT_GRAY, Color.BLACK, 110, 110, 60, p);
+      // drawCow(Color.LIGHT_GRAY, Color.BLACK, -110, -110, 70, p);
+      drawUFO(Color.GRAY, 0, 0, 200, p);
 
    }
 
@@ -144,7 +145,6 @@ public class Aquarium {
    }
 
 
-
    /**
     * Draws UFO contianing two aliens
     * UFO has oval base, rounded dome 
@@ -154,13 +154,6 @@ public class Aquarium {
     * @param yPos y position
     * @param size the overall size of UFO
     * @param p PainterAPI object 
-    * 
-    * public static void drawUFO(Color color, double xPos, double yPos, double size){
-    *    //Calls drawOval
-    *    //Calls drawCircle
-    *    //Calls drawAlien
-    *    //Uses a for to draw UFO 
-    * 
     * @param color the color of the UFO's base
     * @param xPos the x pos of ufo center
     * @param size overall size of ufo 
@@ -168,8 +161,25 @@ public class Aquarium {
    * 
     */
 
-   //public
+   public static void drawUFO(Color color, double xPos, double yPos, double size, PainterAPI p){
+      
+      drawCircle(70, Color.LIGHT_GRAY, xPos, yPos + 30, p);
 
+      double baseY = yPos + 60;
+      
+      p.setPenColor(color);
+      
+      setPosition(xPos - 100, baseY, p);
+      
+      p.startFill(color);
+
+      p.moveTo(xPos + 100, baseY);
+      p.moveTo(xPos + 70, baseY - 30);
+      p.moveTo(xPos - 70, baseY - 30);
+      p.moveTo(xPos - 100, baseY);
+
+      p.finishFill();
+   }   
 
 
 }
