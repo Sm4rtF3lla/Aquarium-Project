@@ -8,12 +8,42 @@ public class Aquarium {
    CanvasAPI canvas = Graphics.createCanvas(800, 600, "My First Drawing");
 
    PainterAPI p = canvas.getPainter();
-      drawTriangle(150, 250, Color.GREEN, 0, 100, p);
-      // drawAlien(Color.GREEN, -100, 0, 80, p);
-      // drawAlien(Color.RED, 100, 0, 80, p);
-      // drawCow(Color.LIGHT_GRAY, Color.BLACK, 110, 110, 60, p);
-      // drawCow(Color.LIGHT_GRAY, Color.BLACK, -110, -110, 70, p);
-      drawUFO(Color.GRAY, 0, 0, 200, p);
+      canvas.setBackgroundColor(new Color(16, 27, 58)); 
+     
+      //Beam and UFO and lights
+      drawTriangle(300, 500, new Color(152, 255, 152), 0, 200, p);
+      drawUFO(new Color(47, 22, 87), 0, 100, 300, p);
+      UfoLights(new Color(255, 242, 99), -70, 110, p);
+      
+      // Moon
+      drawCircle(80, new Color(214, 211, 191), 350, -100, p);
+      drawCircle(70, new Color(129, 136, 145), 370, -100, p);
+      
+      
+      // Earth Planet
+      drawCircle(200, new Color(21, 70, 176), 300, -400, p);
+      drawCircle(100, new Color(29, 130, 46), 300, -400, p ); 
+      drawCircle(70, new Color(29, 130, 46), 230, -170, p ); 
+
+      // Sun
+      drawCircle(80, new Color(232, 133, 46), -280, 80, p);
+
+      //Aliens
+      drawAlien(new Color(12, 235, 23), -40, 175, 80, p);
+      drawAlien(Color.RED, 40, 185, 100, p);
+
+      //Cows
+      drawCow(Color.WHITE, Color.BLACK, 0, 0, 60, p);
+      drawCow(new Color(221, 226, 235), Color.BLACK, 300, -200, 100, p);
+      
+      //stars
+      drawStar(new Color(252, 211, 5), 200, 200, 100, p);
+      drawStar(new Color(252, 211, 5), -350, -180, 150, p);
+      p.turnRight(180);
+      drawBunchOfStars(Color.YELLOW, -350, -50, 20, p);
+
+      p.turnLeft(90);
+      drawBunchOfStars(Color.YELLOW, 320, 250, 20, p);
 
    }
 
@@ -71,7 +101,7 @@ public class Aquarium {
    /**
     * Draws one alien facing front-on
     * Has a rounded head, two black eyes, and a torso
-    * Two aliens of different colors will appear inside UFO 
+    * Two aliens of different colors 
     * @param color main color of alien
     * @param xPos of X cooridnate of alien's center
     * @param yPos the Y coordinate of alien's center
@@ -85,17 +115,20 @@ public class Aquarium {
     drawCircle(size * .4, color, xPos, yPos, p);
     //Left eye
     drawCircle(size * .1, Color.BLACK, xPos - size * .2, yPos + size * .3, p);
+    drawCircle(size * .05, Color.WHITE, xPos - size * .2 - 2, yPos + size * .3 + 7, p);
     //Right eye  
     drawCircle(size * .1, Color.BLACK, xPos + size * .2, yPos + size * .3, p);
+    drawCircle(size * .05, Color.WHITE, xPos + size * .2 - 2, yPos + size * .3 + 7, p);
    }
 
    /**
     * Draws a cow facing sideways
-    * Cow has circle head, and oval body, with black spots
-    * four lines(legs) and a tail
-    * One cow will be inside a tractor beam and another smaller cow will be on planet
+    * Cow has circle head, and circle body, with black spots
+    * four lines(legs) made with for loop. legs will be match color of cow
+    * One cow will be inside ufo beam and another smaller cow will be on planet
+    * Pink snout on head
     * 
-    * @param bodyColor the main color of the cow's body and head
+    * @param bodyColor the main color of the cow's body and head and legs
     * @param spotColor the color of the cow's spots
     * @param xPos the X coordinate of cow's center
     * @param yPos the Y coordinate of cow's center
@@ -104,7 +137,7 @@ public class Aquarium {
     */
    public static void drawCow(Color bodyColor, Color spotColor, double xPos, double yPos, double size, PainterAPI p){
       //legs
-      p.setPenColor(Color.BLACK);
+      p.setPenColor(bodyColor);
       double legX = xPos - size * .3;
 
       for (int i = 0; i < 4; i++){
@@ -129,9 +162,41 @@ public class Aquarium {
       drawCircle(size * .035, Color.BLACK, xPos - size * .6, yPos + size * .4, p);
    }
    
+
+    /**
+    * draws  UFO with a circle dome and trapezoid base.
+    *
+    * @param color color of UFO's base
+    * @param xPos X coordinate of UFO's center
+    * @param yPos Y coordinate of UFO's center
+    * @param size overall size of UFO
+    * @param p PainterAPI object
+    **/
+
+   public static void drawUFO(Color color, double xPos, double yPos, double size, PainterAPI p){
+      
+      drawCircle(size * .45, Color.LIGHT_GRAY, xPos, yPos + size * .05, p);
+
+      double baseY = yPos + size * .05 + 20;
+      
+      p.setPenColor(color);
+      
+      setPosition(xPos - size * .5, baseY, p);
+      
+      p.startFill(color);
+
+      p.moveTo(xPos + size * .5, baseY);
+      p.moveTo(xPos + size * .35, baseY - size * .15);
+      p.moveTo(xPos - size * .35, baseY - size * .15);
+      p.moveTo(xPos - size * .5, baseY);
+
+      p.finishFill();
+   }   
+
    /**
-    * Draws a five-pointed star at a specified position
-    * A for loop will be used to draw star's five sides 
+    * draws a five-pointed star at a specified position
+    * for loop will be used to draw star's five sides 
+    * filled in shape with color of choice
     * 
     * @param color the color of the star
     * @param xPos X coordinate of star
@@ -139,47 +204,37 @@ public class Aquarium {
     * @param size size of star
     * @param p PainterAPi object
     */
-   public static void drawStar(Color color, double xPos, double yPos, PainterAPI p){
-      //calls for setPosition
-      //Uses a for loop to draw five-pointed star
-   }
 
-
-   /**
-    * Draws UFO contianing two aliens
-    * UFO has oval base, rounded dome 
-    * 
-    * @param color the color of UFO's base
-    * @param xPos x position
-    * @param yPos y position
-    * @param size the overall size of UFO
-    * @param p PainterAPI object 
-    * @param color the color of the UFO's base
-    * @param xPos the x pos of ufo center
-    * @param size overall size of ufo 
-    * @param p the PainterAPI object
-   * 
-    */
-
-   public static void drawUFO(Color color, double xPos, double yPos, double size, PainterAPI p){
-      
-      drawCircle(70, Color.LIGHT_GRAY, xPos, yPos + 30, p);
-
-      double baseY = yPos + 60;
-      
+   public static void drawStar(Color color, double xPos, double yPos, double size, PainterAPI p){
+      setPosition(xPos, yPos, p);
       p.setPenColor(color);
-      
-      setPosition(xPos - 100, baseY, p);
-      
       p.startFill(color);
 
-      p.moveTo(xPos + 100, baseY);
-      p.moveTo(xPos + 70, baseY - 30);
-      p.moveTo(xPos - 70, baseY - 30);
-      p.moveTo(xPos - 100, baseY);
+      for (int i = 0; i < 5; i++){
+         p.forward(size);
+         p.turnRight(144);
+      }
 
       p.finishFill();
-   }   
+   }
 
+   public static void drawBunchOfStars(Color color, double xPos, double yPos, double size, PainterAPI p){
+      for (int i = 0; i < 3; i++){
+         if (i == 1){
+            drawStar(color, xPos, yPos + 20, size, p);
+         } else {
+           drawStar(color, xPos, yPos, size, p); 
+         }
+         xPos += 30;
+      }
+   }
+
+   public static void UfoLights(Color color, double xPos, double yPos, PainterAPI p){
+     for (int i = 0; i < 3; i++){
+      drawCircle(8, color, xPos, yPos, p);
+      xPos += 70;
+     }
+      
+   }
 
 }
